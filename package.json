@@ -1,0 +1,11 @@
+{
+  "name": "mach-platform",
+  "version": "1.0.0",
+  "description": "platfrom for high-speed publishment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "pandaYK",
+  "license": "ISC"
+}
