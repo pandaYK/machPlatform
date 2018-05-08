@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>マッハプラットフォーム</title>
+  <link rel="stylesheet" type="text/css" href="reset.css">
+  <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+
+<body>
+  <section>
+    <h1>マッハプラットフォーム</h1>
+    <img src="./logo_black.png" from="https://booth.pm/ja/items/831823" height=50>
+  </section>
+  <article class="grad-wrap">
+    <h1>マッハプラットフォーム設立</h1>
+    <p>思い付いて15分で実装した。後悔はしていない。</p>
+    <p>記事をべた書きって時点で意味が分からないけど。</p>
+    <input id="trigger1" class="grad-trigger" type="checkbox">
+    <label class="grad-btn" for="trigger1"></label>
+    </input>
+    <div class="grad-item">
+      <p>隠されし文章。課金したら開く形式にするか、単純に書籍DLか</p>
+      <p>仕組みは<a href="https://metrograph.jp/css_gradation_paragraph/">こちら</a>をお借りしました。</p>
+      <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-url="http://machplatform-test001.s3-website-ap-northeast-1.amazonaws.com/" data-hashtags="#マッハ新書 #マッハプラットフォーム" data-lang="ja" data-show-count="false">Tweet</a>
+      <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+  </article>
+  <article>
+    <h1>記事その2</h1>
+    <p>こんな感じで概要が見えているイメージ</p>
+    <p>支払いボタンのデモつけてみた。PaymentRequestAPIっていう、とても先が楽しみな支払いフォームAPI。</p>
+    <button id="btn">支払いデモ(支払われない)</button>
+    <p>※httpsじゃないとwebでは動かない模様</p>
+  </article>
+  <article>
+    <h1>きっかけ</h1>
+    <blockquote class="twitter-tweet" data-lang="ja">
+      <p lang="ja" dir="ltr"><a href="https://twitter.com/hashtag/%E3%83%9E%E3%83%83%E3%83%8F%E6%96%B0%E6%9B%B8?src=hash&amp;ref_src=twsrc%5Etfw">#マッハ新書</a> のプラットフォーム、MVPつくるなら<br>・Twitterログイン<br>・投稿<br>・購入/boost<br>・レーティングキャッシュバック<br>・Twitterシェアでレベシェア<br>・PullRequestハッシュタグ自動検出<br>か？<br>原稿はテキストで置いて、PRをmergeしたらCI/CDで自動出稿<br>みんなで作れば案外作れたりして</p>&mdash;
+      たれぱん (@tarepan_mhhow) <a href="https://twitter.com/tarepan_mhhow/status/993954660686774272?ref_src=twsrc%5Etfw">2018年5月8日</a></blockquote>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  </article>
+  <article>
+    <h1>記事その3</h1>
+    <p>あとは本職の人たちに任せた。私は寝る (2018-05-09 AM6:19)</p>
+    <p>目がさえてしまったのでいくつか追加実装 (2018-05-09 AM6:52)</p>
+  </article>
+  <article>
+    <h1>私のPixivFANBOX</h1>
+    <p>40円の乾麺食べ飽きたでござる</p>
+    <p><a href="https://www.pixiv.net/fanbox/creator/25322274">LINK!!!</a></p>
+  </article>
+  <script>
+    // copy from https://qiita.com/taquaki-satwo/items/565eb60228240c80385a
+    // copy from https://developers.google.com/web/fundamentals/payments/?hl=ja
+    // 前に自力実装したから許してほしい
+    window.onload = function() {
+      var $btn = document.getElementById('btn');
+      // 支払いボタンをクリックでAPIをキック
+      $btn.addEventListener('click', onBuyClicked, false);
+    }
+
+    function onBuyClicked() {
+      // Payment Request APIが使用できない環境では従来の決済ページ（/checked）に移動させる
+      if (!window.PaymentRequest) {
+        location.href = '/checkout';
+        return;
+      }
+
+      // 支払いオプションの設定をする
+      var supportedInstruments = [{
+        supportedMethods: ['basic-card'],
+        data: {
+          supportedNetworks: [
+            'visa', 'mastercard', 'amex', 'discover', 'diners', 'jcb', 'unionpay'
+          ]
+        }
+      }];
+
+      // 支払い金額を設定する
+      var details = {
+        displayItems: [{
+          label: 'マッハ新書001',
+          amount: {
+            currency: 'YEN',
+            value: '100'
+          }
+        }],
+        total: {
+          label: '合計',
+          amount: {
+            currency: 'YEN',
+            value: '100'
+          }
+        }
+      };
+      // PaymentRequestオブジェクトを生成しブラウザに表示する
+      var request = new PaymentRequest(supportedInstruments, details);
+      request.show().then(function(paymentResponse) {
+        // Process paymentResponse here
+        setTimeout(paymentResponse.complete, 1000, "success");
+      }).catch(function(err) {
+        console.error("Uh oh, something bad happened", err.message);
+      });
+    }
+  </script>
+</body>
+
+</html>
