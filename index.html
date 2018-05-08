@@ -15,7 +15,7 @@
   </section>
   <article class="grad-wrap">
     <h1>マッハプラットフォーム設立</h1>
-    <p>思い付いて15分で実装した。後悔はしていない。</p>
+    <p>思い付いてから15分で実装した。深夜テンションでやった、後悔はしていない。</p>
     <p>記事をべた書きって時点で意味が分からないけど。</p>
     <input id="trigger1" class="grad-trigger" type="checkbox">
     <label class="grad-btn" for="trigger1"></label>
@@ -32,7 +32,7 @@
     <p>こんな感じで概要が見えているイメージ</p>
     <p>支払いボタンのデモつけてみた。PaymentRequestAPIっていう、とても先が楽しみな支払いフォームAPI。</p>
     <button id="btn">支払いデモ(支払われない)</button>
-    <p>※httpsじゃないとwebでは動かない模様</p>
+    <p>※動かない、かも</p>
   </article>
   <article>
     <h1>きっかけ</h1>
@@ -97,9 +97,10 @@
       };
       // PaymentRequestオブジェクトを生成しブラウザに表示する
       var request = new PaymentRequest(supportedInstruments, details);
-      request.show().then(function(paymentResponse) {
+      request.show().then(async function(paymentResponse) {
         // Process paymentResponse here
-        setTimeout(paymentResponse.complete, 1000, "success");
+        // await paymentResponse.complete("success");
+        setTimeout(paymentResponse.complete, 100, "success");
       }).catch(function(err) {
         console.error("Uh oh, something bad happened", err.message);
       });
